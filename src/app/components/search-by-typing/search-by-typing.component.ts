@@ -4,7 +4,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, map, debounceTime, combineLatest } from 'rxjs';
+import { Observable, combineLatest, debounceTime, map } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ProductModel } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
 
@@ -21,17 +22,9 @@ export class SearchByTypingComponent {
     map((form) => form.title),
     debounceTime(1000)
   );
-
-  readonly list$: Observable<ProductModel[]> = combineLatest([
-    this._productsService.getAll(),
-    this.startWith$,
-  ]).pipe(
-    map(([products, startWith]) => {
-      if (!startWith) {
-        return [];
-      }
-      return products.filter((product) => product.title.startsWith(startWith));
-    })
+  readonly list$: Observable<ProductModel[]> = this.startWith$.pipe(
+    switchMap((data) => this._productsService.getAllWithSearch(data))
   );
+
   constructor(private _productsService: ProductsService) {}
 }
