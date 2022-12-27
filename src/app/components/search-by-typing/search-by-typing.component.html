@@ -1,0 +1,33 @@
+<mat-card>
+  <mat-card-title>Product search</mat-card-title>
+  <mat-card-content>
+
+    <form [formGroup]="search">
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput type="text" placeholder="Title" formControlName="title" required>
+          <mat-error *ngIf="search.get('title')!.invalid">title is invalid</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>
+
+
+<mat-card>
+  <mat-card-title>Products list</mat-card-title>
+  <mat-card-content *ngIf="list$ | async as list">
+
+    <mat-list role="list" *ngIf="list.length > 0; else emptyState">
+      <mat-list-item role="listitem" *ngFor="let item of list$ | async">{{item.title}} {{item.price}}</mat-list-item>
+    </mat-list>
+
+    <ng-template #emptyState>
+      Oops! There is no data!
+    </ng-template>
+
+
+  </mat-card-content>
+</mat-card>
