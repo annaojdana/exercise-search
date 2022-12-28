@@ -4,7 +4,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, combineLatest, debounceTime, map } from 'rxjs';
+import { Observable, debounceTime, map } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ProductModel } from '../../models/product.model';
 import { ProductsService } from '../../services/products.service';
